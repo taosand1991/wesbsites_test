@@ -17,7 +17,7 @@ class Homepage extends Page {
     }
      elementNavigation (link: string){
         this.navElements.forEach((async element => {
-                if(await element.getText() === link){
+                if(await element.$('a').getText() === link){
                     await element.click()
                 }
         }))
