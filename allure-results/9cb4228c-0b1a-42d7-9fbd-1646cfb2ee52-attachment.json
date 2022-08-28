@@ -1,0 +1,9 @@
+{
+  "script": "return (function (elem) {\n        return (function() {\n      // element has a shadowRoot property\n      if (this.shadowRoot) {\n        return this.shadowRoot.querySelector('#editField')\n      }\n      // fall back to querying the element directly if not\n      return this.querySelector('#editField')\n    }).call(elem);\n    }).apply(null, arguments)",
+  "args": [
+    {
+      "element-6066-11e4-a52e-4f735466cecf": "610271e6-5913-40c6-8d55-67beb7561a93",
+      "ELEMENT": "610271e6-5913-40c6-8d55-67beb7561a93"
+    }
+  ]
+}

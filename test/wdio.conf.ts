@@ -1,5 +1,5 @@
 import type { Options } from '@wdio/types'
-import allure from "allure-commandline"
+
 
 export const config: Options.Testrunner = {
     //
@@ -51,7 +51,7 @@ export const config: Options.Testrunner = {
     // will be called from there.
     //
     specs: [
-        './test/specs/saucelab.spec.ts'
+        './test/specs/**/*.ts'
     ],
     // Patterns to exclude.
     exclude: [

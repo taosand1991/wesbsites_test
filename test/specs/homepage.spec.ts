@@ -32,8 +32,6 @@ describe('to show if the buttons are working correctly,', () => {
         await expect(browser).toHaveUrlContaining('login')
     })
     it("should log user in successfully", async () => {
-        // await Homepage.profileButton.click();
-        // await Homepage.elementNavigation("Log in")
         await Homepage.login('tadesina26@gmail.com', "Police1991@");
         await Homepage.randomElement("button[type='submit']").click();
     })
