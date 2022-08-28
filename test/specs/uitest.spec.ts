@@ -6,9 +6,5 @@ describe('to shadow dom', () => {
         const main = await $('guid-generator')
         await main.shadow$('#buttonGenerate').click();
         await main.shadow$('#buttonCopy').click();
-        const text = await main.shadow$('#editField').getValue();
-        const copiedText = await browser.keys(['\uE009', 'v'])
-        console.log("copied-text" + copiedText)
-        await browser.pause(10000)
     })
 })
