@@ -1,6 +1,6 @@
 ### UI Test of Web Applications
 Testing of web applications such as western union, shadow  and Saucelab Demo\
-It is incorporated with CI/CD Jenkins
+It is incorporated with CI/CD Jenkins\
 Developed using Page Object Pattern
 
 ### *Steps to run the Project:*
