@@ -1,33 +1,44 @@
 import Page from "./Page"
 
 class Homepage extends Page {
-    async open (){
+    async open() {
         await super.open('/');
     };
 
-    get profileButton (){
+    get profileButton() {
         return $('.hamburger-button');
     }
-    get cookiesButton (){
+
+    get cookiesButton() {
         return $('#onetrust-accept-btn-handler');
     }
 
-    get navElements () {
-        return $$(".nav-item")
+    get navElements() {
+        return $$("//*[@id=\"hamburger-nav-item\"]/ul/li");
     }
-     elementNavigation (link: string){
+
+    get loginButton() {
+        return $('#login-nav-item')
+    }
+
+    get registrationButton() {
+        return $('#sign-up-nav-item')
+    }
+
+    elementNavigation(link: string) {
         this.navElements.forEach((async element => {
-                if(await element.getText() === link){
-                    await element.$('a').click();
-                }
+            if (await element.getText() === link) {
+                await element.$('a').click();
+            }
         }))
     }
-    async login (username: string, password: string){
+
+    async login(username: string, password: string) {
         await $('[name="txtEmailAddr"]').setValue(username);
         await $('#txtKey').setValue(password);
     }
 
-    async register (emailAddress: string){
+    async register(emailAddress: string) {
         await $("input[name='txtFName']").setValue('test');
         await $("input[name='txtLName']").setValue('test')
         await $("input[name='dob']").setValue('14/05/1991')
@@ -43,7 +54,7 @@ class Homepage extends Page {
         await $("button[data-linkname='button-register']").click();
     }
 
-    public randomElement (element:string){
+    public randomElement(element: string) {
         return $(element);
     }
 }

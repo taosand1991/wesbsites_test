@@ -21,14 +21,14 @@ describe('to show if the buttons are working correctly,', () => {
     it("should navigate tho the registration page", async () => {
         await Homepage.open();
         await Homepage.profileButton.click();
-        await Homepage.elementNavigation("Register")
+        await Homepage.registrationButton.click()
         await expect(browser).toHaveUrlContaining('register')
     })
 
     it("should navigate to the login page", async () => {
         await Homepage.open();
         await Homepage.profileButton.click();
-        await Homepage.elementNavigation("Log in")
+        await Homepage.loginButton.click();
         await expect(browser).toHaveUrlContaining('login')
     })
     it("should log user in successfully", async () => {
@@ -37,8 +37,7 @@ describe('to show if the buttons are working correctly,', () => {
     })
     it("should gives error in creating successful user", async () => {
         await Homepage.open();
-        await Homepage.profileButton.click();
-        await Homepage.elementNavigation("Register")
+        await Homepage.registrationButton.click();
         await Homepage.register('test100.test1991@gmail.com');
     })
 })
