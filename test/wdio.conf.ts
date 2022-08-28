@@ -51,12 +51,11 @@ export const config: Options.Testrunner = {
     // will be called from there.
     //
     specs: [
-        // [
-        //     './test/specs/homepage.spec.ts',
-        //     './test/specs/uitest.spec.ts',
-        //     './test/specs/saucelab.spec.ts',
-        // ]
-        './test/specs/homepage.spec.ts',
+        [
+            './test/specs/homepage.spec.ts',
+            './test/specs/uitest.spec.ts',
+            './test/specs/saucelab.spec.ts',
+        ]
     ],
     // Patterns to exclude.
     exclude: [
