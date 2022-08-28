@@ -56,6 +56,7 @@ class Saucelab extends Page {
         }
     }
 
+    // checkout form for the checkout page
     async checkoutForm(){
         await $('input[id="first-name"]').setValue('test');
         await $('input[id="last-name"]').setValue('test');
