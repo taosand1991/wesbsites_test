@@ -1,4 +1,0 @@
-{
-  "using": "xpath",
-  "value": "//div[@id=\"login_credentials\"]/h4"
-}

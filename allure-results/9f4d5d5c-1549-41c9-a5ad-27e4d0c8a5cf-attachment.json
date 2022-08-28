@@ -1,4 +1,0 @@
-{
-  "using": "css selector",
-  "value": "button[data-test=\"back-to-products\"]"
-}

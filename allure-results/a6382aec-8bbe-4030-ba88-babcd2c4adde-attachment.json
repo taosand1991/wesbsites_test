@@ -1,4 +1,0 @@
-{
-  "using": "xpath",
-  "value": "//div[@class=\"summary_info\"]/div[4]"
-}
