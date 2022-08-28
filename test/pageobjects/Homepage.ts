@@ -6,7 +6,7 @@ class Homepage extends Page {
     };
 
     get profileButton (){
-        return $('.wu-icon');
+        return $('.hamburger-button');
     }
     get cookiesButton (){
         return $('#onetrust-accept-btn-handler');
