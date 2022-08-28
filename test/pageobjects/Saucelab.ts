@@ -20,6 +20,11 @@ class Saucelab extends Page {
         return $(element)
     }
 
+    randomElements(element: string) {
+        return $$(element);
+    }
+
+
     async iterativeElement(iterativeElements: string, index: number, filterElement?: string, clickableLink?: string) {
         if (clickableLink && filterElement === null) {
             return await $$(iterativeElements)[index].$(clickableLink).click();
@@ -27,8 +32,35 @@ class Saucelab extends Page {
         return await $$(iterativeElements)[index].$(filterElement).getText();
     }
 
-    get cartIcon (){
+    get cartIcon() {
         return $('.shopping_cart_container');
+    }
+
+    get continueShoppingButton() {
+        return $('#continue-shopping');
+    }
+
+
+    // method to add products to cart, given the number of products to add to cart
+    async addProductsToCart(iterativeElements: string, length: number) {
+        const elements = await $$(iterativeElements);
+        for (let i = 0; i < length; i++) {
+            await elements[i].$('//button[text()="Add to cart"]').click();
+        }
+    }
+
+      async removeProductsFromCart(iterativeElements: string, length: number) {
+        const elements = await $$(iterativeElements);
+        for (let i = 0; i < length; i++) {
+            await elements[i].$('//button[text()="Remove"]').click();
+        }
+    }
+
+    async checkoutForm(){
+        await $('input[id="first-name"]').setValue('test');
+        await $('input[id="last-name"]').setValue('test');
+        await $('input[id="postal-code"]').setValue('10001');
+        await $('input[id="continue"]').click();
     }
 }
 

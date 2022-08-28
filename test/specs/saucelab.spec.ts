@@ -1,13 +1,13 @@
 import Saucelab from "../pageobjects/Saucelab";
 import * as assert from "assert";
+import * as dotenv from "dotenv"
 
 // to test the saucelab demo web application;
 
+dotenv.config();
 
-const highPrice = '$49.99'
-const lowPrice = '$7.99'
-const alphabetAscending = 'Sauce Labs Backpack'
-const alphabetDescending = 'Test.allTheThings() T-Shirt (Red)'
+
+const productsLength = 3
 
 
 describe('to ascertain all the functionalities of saucedmo are working', () => {
@@ -25,17 +25,12 @@ describe('to ascertain all the functionalities of saucedmo are working', () => {
         assert.strictEqual(text, mainPassword);
     });
     it('should display error message with invalid login', async () => {
-        await Saucelab.login('taofeek', 'adesina1991');
+        await Saucelab.login(process.env.wrongUsername, process.env.wrongPassword);
         const errorText = await Saucelab.errorMessage;
         await expect(await errorText).toHaveTextContaining('Username and password do not match')
     });
-    it('should display error message with invalid login', async () => {
-        await Saucelab.login('taofeek', 'adesina1991');
-        const errorText = await Saucelab.errorMessage;
-        await expect(errorText).toHaveTextContaining('Username and password do not match')
-    });
     it('should log user in successfully', async () => {
-        await Saucelab.login('standard_user', 'secret_sauce');
+        await Saucelab.login(process.env.accountUsername, process.env.password);
         const errorText = await Saucelab.errorMessage;
         await expect(await errorText).not.toExist();
         const homeText = await Saucelab.randomElement('//span[@class="title"]')
@@ -44,22 +39,22 @@ describe('to ascertain all the functionalities of saucedmo are working', () => {
     it('should verify the Name(A - Z) selection', async () => {
         await Saucelab.randomElement('.product_sort_container').selectByAttribute('value', 'az')
         const item = await Saucelab.iterativeElement('.inventory_item', 0, '.inventory_item_name');
-        await expect(item).toEqual(alphabetAscending);
+        await expect(item).toEqual(process.env.alphabetAscending);
     });
     it('should verify the Name(Z - A) selection', async () => {
         await Saucelab.randomElement('.product_sort_container').selectByAttribute('value', 'za')
         const item = await Saucelab.iterativeElement('.inventory_item', 0, '.inventory_item_name');
-        await expect(item).toEqual(alphabetDescending);
+        await expect(item).toEqual(process.env.alphabetDescending);
     });
     it('should verify the Price(low - high) selection', async () => {
         await Saucelab.randomElement('.product_sort_container').selectByAttribute('value', 'lohi')
         const item = await Saucelab.iterativeElement('.inventory_item', 0, '.inventory_item_price');
-        await expect(item).toEqual(lowPrice);
+        await expect(item).toEqual(process.env.lowPrice);
     });
     it('should verify the Price(high - low) selection', async () => {
         await Saucelab.randomElement('.product_sort_container').selectByAttribute('value', 'hilo')
         const item = await Saucelab.iterativeElement('.inventory_item', 0, '.inventory_item_price');
-        await expect(item).toEqual(highPrice);
+        await expect(item).toEqual(process.env.highPrice);
     });
     it('should navigate to the product page', async () => {
         const itemName = await Saucelab.iterativeElement('.inventory_item', 1, '.inventory_item_name');
@@ -73,15 +68,53 @@ describe('to ascertain all the functionalities of saucedmo are working', () => {
         await expect(homeText).toHaveText('PRODUCTS');
     });
     it('should add product to cart', async () => {
-        await Saucelab.iterativeElement('.inventory_item', 0, null, '#add-to-cart-sauce-labs-backpack');
+        await Saucelab.iterativeElement('.inventory_item', 0, null, '//button[text()="Add to cart"]');
         await Saucelab.cartIcon.click()
         await expect(await Saucelab.randomElement('.cart_item')).toExist();
     })
     it('should remove a product from cart at the product page', async () => {
-        await Saucelab.randomElement('#continue-shopping').click();
-        await Saucelab.iterativeElement('.inventory_item', 0, null, '#remove-sauce-labs-backpack');
+        await Saucelab.continueShoppingButton.click();
+        await Saucelab.iterativeElement('.inventory_item', 0, null, '//button[text()="Remove"]');
         await Saucelab.cartIcon.click()
         await expect(await Saucelab.randomElement('.cart_item')).not.toExist();
     })
-
+    it('should add multiple products to the cart', async () => {
+        await Saucelab.continueShoppingButton.click();
+        await Saucelab.addProductsToCart(".inventory_item", productsLength);
+        await Saucelab.cartIcon.click()
+        const cartItems = await Saucelab.randomElements('.cart_item');
+        await expect(cartItems.length).toEqual(productsLength);
+    })
+    it('should remove multiple products from cart page', async () => {
+        await Saucelab.removeProductsFromCart(".cart_item", productsLength);
+        const cartItems = await Saucelab.randomElements('.cart_item');
+        await expect(cartItems).not.toExist();
+    })
+    it('should checkout a product', async () => {
+        await Saucelab.continueShoppingButton.click();
+        await Saucelab.iterativeElement('.inventory_item', 0, null, '//button[text()="Add to cart"]');
+        await Saucelab.cartIcon.click()
+        await Saucelab.randomElement('#checkout').click()
+        await expect(browser).toHaveUrlContaining('checkout-step-one')
+    });
+    it('should fill the checkout form successfully', async () => {
+        await Saucelab.checkoutForm();
+        await expect(browser).toHaveUrlContaining('checkout-step-two')
+        await expect(await Saucelab.randomElement('//div[@class=\"summary_info\"]/div[4]')).toHaveTextContaining('FREE PONY');
+    });
+    it('should checkout the order successfully ', async () => {
+        await Saucelab.randomElement('#finish').click();
+        await expect(Saucelab.randomElement('.complete-header')).toHaveText("THANK YOU FOR YOUR ORDER")
+    });
+    it('should verify after purchase, there is no product in cart ', async () => {
+        await Saucelab.randomElement('#back-to-products').click();
+        await Saucelab.cartIcon.click();
+        await expect(Saucelab.randomElement(".cart_item")).not.toExist();
+    });
+    it('should check for the menu bar links ', async () => {
+        await Saucelab.continueShoppingButton.click();
+        await Saucelab.randomElement('#react-burger-menu-btn').click();
+        await Saucelab.randomElement('#about_sidebar_link').click()
+        await expect(browser).toHaveUrlContaining('saucelab');
+    });
 })

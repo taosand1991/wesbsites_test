@@ -22,5 +22,8 @@
         "typescript": "^4.8.2",
         "wdio-chromedriver-service": "^7.3.2",
         "wdio-edgedriver-service": "^1.2.0"
+    },
+    "dependencies": {
+        "dotenv": "^16.0.1"
     }
 }
