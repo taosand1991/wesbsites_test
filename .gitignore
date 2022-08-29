@@ -2,3 +2,4 @@
 .env
 /allure-report
 /allure-results
+ngrok.exe
